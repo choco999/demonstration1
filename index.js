@@ -33,12 +33,12 @@ app.post('/pay', (req, res) => {
                     "name": "Ice Cream",
                     "sku": "001",
                     "price": "10.00",
-                    "currency": "USD",
+                    "currency": "CAD",
                     "quantity": 1
                 }]
             },
             "amount": {
-                "currency": "USD",
+                "currency": "CAD",
                 "total": "10.00"
             },
             "description": "This is the payment description."
@@ -72,7 +72,7 @@ app.get('/success', (req, res) => {
         "payer_id": payerId,
         "transactions": [{
             "amount": {
-                "currency": "USD",
+                "currency": "CAD",
                 "total": "10.00"
             }
         }]
