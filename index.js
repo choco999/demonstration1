@@ -12,8 +12,13 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => res.render('index'));
+// app.get('/', (req, res) => res.render('index'));
 
+app.get('/', function(req, res, next) {
+    res.render('index', {title: 'Group Tutorial - Paypal'});
+});
+
+app.use('/public/', express.static('./public'));
 
 
 // create a pay route
