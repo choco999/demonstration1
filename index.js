@@ -42,11 +42,20 @@ app.post('/pay', (req, res) => {
                     "price": "10.00",
                     "currency": "CAD",
                     "quantity": 1
+                    // class demo
+                    // "name": req.body.name,
+                    // "sku": "001",
+                    // "price": req.body.price,
+                    // "currency": "CAD",
+                    // "quantity": req.body.quantity
+
                 }]
             },
             "amount": {
                 "currency": "CAD",
                 "total" : "10.00"
+                // class demo
+                // "total": req.body.price * req.body.quantity
             },
             "description": "This is the payment description."
         }]
