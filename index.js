@@ -1,7 +1,8 @@
 const express = require('express');
-const ejs = require('ejs');
+// import Paypal Rest SDK
 const paypal = require('paypal-rest-sdk');
 
+// paypal configuration
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': 'AW2rSj9ThCjqZ7K_7Ym0HfmjXrdnWzQgRo6z-hY_9dRDsZyXucmGwMwMMs5Irt1EEjgUhxhI_JJ-Ffzq',
@@ -10,18 +11,19 @@ paypal.configure({
 
 const app = express();
 
+// for req.body undefined error
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+// view engine setup
 app.set('view engine', 'ejs');
 
-// app.get('/', (req, res) => res.render('index'));
-
+// GET home
 app.get('/', function(req, res, next) {
     res.render('index', {title: 'Group Tutorial - Paypal'});
 });
 
-app.use('/public/', express.static('./public'));
-
-
-// create a pay route
+// POST handler /pay
 app.post('/pay', (req, res) => {
     var create_payment_json = {
         "intent": "sale",
@@ -44,7 +46,7 @@ app.post('/pay', (req, res) => {
             },
             "amount": {
                 "currency": "CAD",
-                "total": "10.00"
+                "total" : "10.00"
             },
             "description": "This is the payment description."
         }]
@@ -58,6 +60,7 @@ app.post('/pay', (req, res) => {
             // console.log(payment);
             // res.send('ok');
 
+            // redirected to the success page
             for(let i = 0; i < payment.links.length; i++) {
                 if(payment.links[i].rel === 'approval_url') {
                     res.redirect(payment.links[i].href);
@@ -67,21 +70,17 @@ app.post('/pay', (req, res) => {
     });
 })
 
-// success route
+// GET handler /success
 app.get('/success', (req, res) => {
     // get params from the URL that's sent back
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
 
     const execute_payment_json = {
-        "payer_id": payerId,
-        "transactions": [{
-            "amount": {
-                "currency": "CAD",
-                "total": "10.00"
-            }
-        }]
+        "payer_id": payerId
     };
+
+    //console.log(execute_payment_json.transactions[0]['amount']['total']) // 10.00
 
     
     paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
@@ -95,7 +94,7 @@ app.get('/success', (req, res) => {
     });
 });
 
-// cancel route
+// GET handler /cancel
 app.get('/cancel', (req, res) =>{
     res.send('Cancelled');
 });
