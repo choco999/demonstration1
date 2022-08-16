@@ -1,9 +1,9 @@
 Hello! This is our PayPal group for JS!
 
 Group Members are: 
-Chisato Sakata
-Stephanie Caliwag
-Alec Tanner
+Chisato Sakata,
+Stephanie Caliwag,
+Alec Tanner and
 Middy Esmail
 
 What we have for you is a powerpoint presentation discussing some points and some facts about Paypal. 
